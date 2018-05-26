@@ -1,22 +1,20 @@
 <template>
   <v-layout row>
-    <v-flex xs12 sm6 offset-sm3>
-        <v-card class="macros">
-        <v-card-title primary-title>
-          <div>
-            <div class="headline">Macros</div>
-          </div>
-        </v-card-title>
-        <v-card-actions>
-          <v-btn flat>Share</v-btn>
-          <v-spacer></v-spacer>
-        </v-card-actions>
-        <v-slide-y-transition>
-            <CommitChart />
-        </v-slide-y-transition>
-        This card provides a summary of the ratio of the macros you consumed today. 
-        </v-card>
-    </v-flex>
+    <v-card class="macros">
+      <v-card-title primary-title>
+        <div>
+          <div class="headline">Macros</div>
+        </div>
+      </v-card-title>
+      <v-card-actions>
+        <v-btn flat>Share</v-btn>
+        <v-spacer></v-spacer>
+      </v-card-actions>
+      <v-slide-y-transition>
+        <CommitChart />
+      </v-slide-y-transition>
+      This card provides a summary of the ratio of the macros you consumed today.
+    </v-card>
   </v-layout>
 </template>
 
@@ -35,7 +33,6 @@
 </script>
 
 <style>
-.macros {
-    padding: 30px;
-}
+
+
 </style>
