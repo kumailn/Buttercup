@@ -4,6 +4,7 @@ import HelloWorld from '@/components/HelloWorld'
 import Nutrition from '@/components/Nutrition'
 import Navy from '@/components/Navy'
 import Macros from '@/components/Macros'
+import Test from '@/components/Test'
 
 Vue.use(Router)
 
@@ -18,6 +19,11 @@ export default new Router({
       path: '/lp',
       name: 'Nutrition',
       component: Nutrition
+    }, 
+    {
+      path: '/Test',
+      name: 'Test',
+      component: Test
     }
   ]
 })

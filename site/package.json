@@ -13,6 +13,7 @@
     "chart.js": "^2.7.2",
     "firebase": "^5.0.4",
     "vue": "^2.5.2",
+    "vue-chart-js": "^1.4.1",
     "vue-chartjs": "^3.3.1",
     "vue-router": "^3.0.1",
     "vuetify": "^1.0.18"
