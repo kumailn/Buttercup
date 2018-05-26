@@ -19,6 +19,7 @@
 </template>
 
 <script>
+  import db from '../firebase/init'
   import CommitChart from './commitchart'
   export default {
     name: "Macros",

@@ -40,29 +40,33 @@
                       <v-list-tile>
                         <v-list-tile-content>Fat:</v-list-tile-content>
                         <v-spacer></v-spacer>
-                        <v-progress-circular :value="(totalfat*100)/88" color="blue-grey"></v-progress-circular>
                         <v-list-tile-content class="align-end">{{ Math.floor(totalfat) }}</v-list-tile-content>
+                        <v-spacer></v-spacer>
+                        <v-progress-circular :value="(totalfat*100)/88" color="blue-grey"></v-progress-circular>
                       </v-list-tile>
                       <v-divider></v-divider>
                       <v-list-tile>
                         <v-list-tile-content>Carbs:</v-list-tile-content>
                         <v-spacer></v-spacer>
-                        <v-progress-circular :value="(totalcarbs*100)/330" color="blue-grey"></v-progress-circular>
                         <v-list-tile-content class="align-end">{{ Math.floor(totalcarbs) }}</v-list-tile-content>
+                        <v-spacer></v-spacer>
+                        <v-progress-circular :value="(totalcarbs*100)/330" color="blue-grey"></v-progress-circular>
                       </v-list-tile>
                       <v-divider></v-divider>
                       <v-list-tile>
                         <v-list-tile-content>Protein:</v-list-tile-content>
                         <v-spacer></v-spacer>
-                        <v-progress-circular :value="(totalprot*100)/132" color="blue-grey"></v-progress-circular>
                         <v-list-tile-content class="align-end">{{ Math.floor(totalprot) }}</v-list-tile-content>
+                        <v-spacer></v-spacer>
+                        <v-progress-circular :value="(totalprot*100)/132" color="blue-grey"></v-progress-circular>
                       </v-list-tile>
                       <v-divider></v-divider>
                       <v-list-tile>
                         <v-list-tile-content>Sodium:</v-list-tile-content>
                         <v-spacer></v-spacer>
-                        <v-progress-circular :value="(totalsod*100)/2300" color="blue-grey"></v-progress-circular>
                         <v-list-tile-content class="align-end">{{ totalsod }}</v-list-tile-content>
+                        <v-spacer></v-spacer>
+                        <v-progress-circular :value="(totalsod*100)/2300" color="blue-grey"></v-progress-circular>
                       </v-list-tile>
                     </v-list>
                   </v-card>
