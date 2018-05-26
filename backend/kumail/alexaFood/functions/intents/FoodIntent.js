@@ -38,20 +38,19 @@ var config = {
 
 var cal = '0';
 module.exports = ( number = '3', food = 'apple', day = null,  callback) => {
-    console.log("QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ")
+    // console.log("QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ")
 
-    console.log(db)
+    // console.log(db)
     var output = ''
+    var days = [ "sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"]
+    var d = new Date();
+    var numDay = d.getDay();
 
     if(['a', 'e', 'i', 'o', 'u'].includes(food.charAt(0).toLowerCase())){
         output = `Okay, I've recorded you ate an ${food}`
     }
     else{
         output = `Okay, I've recorded you ate a ${food}`
-    }
-
-    if(day){
-        output += ` on ${day}`
     }
 
     var today = new Date();
@@ -67,7 +66,17 @@ module.exports = ( number = '3', food = 'apple', day = null,  callback) => {
         mm = '0'+mm
     } 
 
-    today = dd + '-' + mm + '-' + yyyy;
+
+
+    if(day){
+        output += ` on ${day}`
+        var dayOffset = numDay - days.indexOf(day.toLowerCase());
+        console.log("DAYS", day, days.indexOf(day), numDay, dayOffset)
+        today = (dd - dayOffset) + '-' + mm + '-' + yyyy;
+    }
+    else{
+        today = dd + '-' + mm + '-' + yyyy;
+    }
 
     let config = {
         headers: {
@@ -77,21 +86,62 @@ module.exports = ( number = '3', food = 'apple', day = null,  callback) => {
       }
       
       let data = {
-        "query" : "for breakfast i ate a " + food
+        "query" : "for Meals i ate a " + food
         }
       
     axios.post('https://trackapi.nutritionix.com/v2/natural/nutrients', data, config).then((data) => {
-                console.log(data.data)    
-    
-                console.log(data.data.foods[0].food_name)    
-                console.log(data.data.foods[0].serving_unit)    
-                console.log(data.data.foods[0].nf_calories)    
-                console.log(data.data.foods[0].nf_total_fat)    
-                console.log(data.data.foods[0].nf_sodium)    
-                console.log(data.data.foods[0].nf_protein)    
-                console.log(data.data.foods[0].nf_sugars)    
-
-                db.collection("food").doc(today).set({ Breakfast : [
+                var foodResult = {
+                    day: day,
+                    name: data.data.foods[0].food_name,
+                    date : today,
+                    calories: data.data.foods[0].nf_calories,
+                    servings: data.data.foods[0].serving_unit,
+                    sodium: data.data.foods[0].nf_sodium,
+                    protein : data.data.foods[0].nf_protein,
+                    sugar: data.data.foods[0].nf_sugars,
+                    fat: data.data.foods[0].nf_total_fat,
+                    carbs: data.data.foods[0].nf_total_carbohydrate,
+                    fiber: data.data.foods[0].nf_dietary_fiber,
+                    isFood: true
+                };
+                var docRef = db.collection("food").doc(today);
+                console.log("FOOD", foodResult)
+                docRef.get()
+                .then(function(doc) {
+                    if (doc.exists) {
+                        console.log("Document data:", doc.data().Meals);
+                        var newarr = doc.data().Meals || [];
+                        newarr.push(foodResult);
+                        // console.log("DATAAAAAAAAAAAAAAAAAAAA", newarr)
+                        docRef.set({Meals : newarr}).then(function(docRef) {
+                            console.log("Document written with ID: ", docRef.id);
+                            return callback(null, output);
+                        })
+                        .catch(function(error) {
+                            console.error("Error adding document: ", error);
+                            return callback(null, output);
+                        });
+                    } else {
+                        // doc.data() will be undefined in this case
+                        console.log("No such document!");
+                        docRef.set({Meals : [foodResult]}).then(function(docRef) {
+                            console.log("Document written with ID: ", docRef.id);
+                            return callback(null, output);
+                        })
+                        .catch(function(error) {
+                            console.error("Error adding document: ", error);
+                            docRef.set({Meals : [foodResult]}).then(function(docRef) {
+                                console.log("Document written with ID: ", docRef.id);
+                                return callback(null, output);
+                            })
+                        });                        
+                    }
+                }).catch(function(error) {
+                    console.log("Error getting document:", error);
+                    return callback(null, output + 'err doc');
+                });            
+/* 
+                db.collection("food").doc(today).set({ Meals : [
                     {
                         day: day,
                         name: data.data.foods[0].food_name,
@@ -112,14 +162,14 @@ module.exports = ( number = '3', food = 'apple', day = null,  callback) => {
                 .catch(function(error) {
                     console.error("Error adding document: ", error);
                     return callback(null, output);
-                });
+                }); */
             }).catch(err => console.log("ERRORRRR", err))
 
     
 /*     waApi.getFull(`calories in a ${food}`).then(msg => {
         var cal = msg.pods[1].subpods[0].plaintext;
         console.log("CAAAAAAAAAAAAAAAAAAAAAAAL!!!!!!!!!!!!!!!!!!!!", msg.pods[1].subpods[0].plaintext);
-        db.collection("food").doc(today).set({ Breakfast : [
+        db.collection("food").doc(today).set({ Meals : [
             {
                 day: day,
                 name: food,
