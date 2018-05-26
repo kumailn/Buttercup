@@ -1,0 +1,27 @@
+{
+  "name": "alexaFood",
+  "version": "0.0.0",
+  "description": "",
+  "author": "kumail <kumailmn@gmail.com>",
+  "main": "functions/__main__.js",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "firebase": "^5.0.4",
+    "firebase-admin": "^5.12.1",
+    "install": "^0.11.0",
+    "lib": "^3.0.1",
+    "wolfram-alpha-api": "https://products.wolframalpha.com/api/libraries/javascript/wolfram-alpha-api-1.0.0-rc.1.tgz"
+  },
+  "private": true,
+  "stdlib": {
+    "build": "faaslang",
+    "name": "kumail/alexaFood",
+    "timeout": 10000,
+    "publish": true,
+    "personalize": {
+      "keys": [],
+      "user": []
+    },
+    "source": "alexa"
+  }
+}
