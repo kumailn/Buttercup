@@ -1,17 +1,19 @@
 <template>
   <v-layout row>
-    <v-flex xs12 sm6 offset-sm3>
-      <v-card>
+    <v-flex xs12 sm6 offset-sm3 align-start="true">
+      <v-card class="carder">
         <v-card-title primary-title>
           <div>
             <div class="headline">Nutrition</div>
-            <span class="grey--text">Summary of all your daily nutrient intake</span>
           </div>
         </v-card-title>
         <v-card-actions>
           <v-btn flat>Share</v-btn>
           <v-spacer></v-spacer>
-          <v-btn flat color="purple" icon @click.native="show = !show"><v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon></v-btn>
+          <v-btn flat color="purple" icon @click.native="show = !show">
+            <v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}
+            </v-icon>
+          </v-btn>
         </v-card-actions>
         <v-slide-y-transition>
           <v-card-text v-show="show">
@@ -19,8 +21,8 @@
               <v-container fluid grid-list-md>
                 <v-data-iterator :items="items" :rows-per-page-items="rowsPerPageItems" :pagination.sync="pagination" content-tag="v-layout"
                   row wrap>
-                  <v-flex slot="item" slot-scope="props" lg3>
-                    <v-card>
+                  <v-flex slot="item" slot-scope="props" align-content-center="true">
+                    <v-card light="true" width="300px">
                       <v-card-title>
                         <h4>{{ props.item.name }}</h4>
                       </v-card-title>
@@ -28,36 +30,49 @@
                       <v-list dense>
                         <v-list-tile>
                           <v-list-tile-content>Calories:</v-list-tile-content>
+                          <v-spacer></v-spacer>
                           <v-progress-circular :value="calprogress[rand()]" color="blue-grey"></v-progress-circular>
                           <v-list-tile-content class="align-end">{{ props.item.calories }}</v-list-tile-content>
                         </v-list-tile>
+                        <v-divider></v-divider>
                         <v-list-tile>
                           <v-list-tile-content>Fat:</v-list-tile-content>
+                          <v-spacer></v-spacer>
                           <v-progress-circular :value="fatprogress[rand()]" color="blue-grey"></v-progress-circular>
                           <v-list-tile-content class="align-end">{{ props.item.fat }}</v-list-tile-content>
                         </v-list-tile>
+                        <v-divider></v-divider>
                         <v-list-tile>
                           <v-list-tile-content>Carbs:</v-list-tile-content>
+                          <v-spacer></v-spacer>
                           <v-progress-circular :value="carbprogress[rand()]" color="blue-grey"></v-progress-circular>
                           <v-list-tile-content class="align-end">{{ props.item.carbs }}</v-list-tile-content>
                         </v-list-tile>
+                        <v-divider></v-divider>
                         <v-list-tile>
                           <v-list-tile-content>Protein:</v-list-tile-content>
+                          <v-spacer></v-spacer>
                           <v-progress-circular :value="protprogress[rand()]" color="blue-grey"></v-progress-circular>
                           <v-list-tile-content class="align-end">{{ props.item.protein }}</v-list-tile-content>
                         </v-list-tile>
+                        <v-divider></v-divider>
                         <v-list-tile>
                           <v-list-tile-content>Sodium:</v-list-tile-content>
+                          <v-spacer></v-spacer>
                           <v-progress-circular :value="sodprogress[rand()]" color="blue-grey"></v-progress-circular>
                           <v-list-tile-content class="align-end">{{ props.item.sodium }}</v-list-tile-content>
                         </v-list-tile>
+                        <v-divider></v-divider>
                         <v-list-tile>
                           <v-list-tile-content>Calcium:</v-list-tile-content>
+                          <v-spacer></v-spacer>
                           <v-progress-circular :value="calcprogress[rand()]" color="blue-grey"></v-progress-circular>
                           <v-list-tile-content class="align-end">{{ props.item.calcium }}</v-list-tile-content>
                         </v-list-tile>
+                        <v-divider></v-divider>
                         <v-list-tile>
                           <v-list-tile-content>Iron:</v-list-tile-content>
+                          <v-spacer></v-spacer>
                           <v-progress-circular class="align-end" :value="ironprogress[rand()]" color="blue-grey"></v-progress-circular>
                           <v-list-tile-content class="align-end">{{ props.item.iron }}</v-list-tile-content>
                         </v-list-tile>
@@ -71,35 +86,43 @@
           </v-card-text>
         </v-slide-y-transition>
       </v-card>
+      <macros class="carder" />
+      <history class="carder" />
     </v-flex>
-    <Macros/>
   </v-layout>
 </template>
 
 <style>
+  .carder {
+    padding: 15px;
+    margin: 20px;
+  }
 
+  .card {
+    padding: 10px;
+  }
 
 </style>
 
 <script>
-import Macros from './Macros'
-import Navy from './Navy'
+  import Macros from './Macros'
+  import CommitChart from './commitchart'
+  import History from './History'
   export default {
-    data: () => ({  
-      calprogress:  [],
-      protprogress: [],  
-      carbprogress: [], 
+    data: () => ({
+      calprogress: [],
+      protprogress: [],
+      carbprogress: [],
       ironprogress: [],
       calcprogress: [],
-      sodprogress:  [],
-      fatprogress:  [], 
+      sodprogress: [],
+      fatprogress: [],
       show: false,
-      rowsPerPageItems: [4],
+      rowsPerPageItems: [2],
       pagination: {
-        rowsPerPage: 4
+        rowsPerPage: 2
       },
-      items: [
-        {
+      items: [{
           value: false,
           name: 'Saturday May 26',
           calories: 159,
@@ -212,25 +235,25 @@ import Navy from './Navy'
       ]
     }),
     mounted() {
-            for (var i = 0; i < 10; i++) {
-                this.carbprogress.push(Math.floor((Math.random() * 100) + 1));
-                this.fatprogress.push(Math.floor((Math.random() * 100) + 1));
-                this.calprogress.push(Math.floor((Math.random() * 100) + 1));
-                this.ironprogress.push(Math.floor((Math.random() * 100)+ 1));
-                this.calcprogress.push(Math.floor((Math.random() * 100) + 1));
-                this.protprogress.push(Math.floor((Math.random() * 100) + 1));
-                this.sodprogress.push(Math.floor((Math.random() * 100) + 1));
-            }
+      for (var i = 0; i < 10; i++) {
+        this.carbprogress.push(Math.floor((Math.random() * 100) + 1));
+        this.fatprogress.push(Math.floor((Math.random() * 100) + 1));
+        this.calprogress.push(Math.floor((Math.random() * 100) + 1));
+        this.ironprogress.push(Math.floor((Math.random() * 100) + 1));
+        this.calcprogress.push(Math.floor((Math.random() * 100) + 1));
+        this.protprogress.push(Math.floor((Math.random() * 100) + 1));
+        this.sodprogress.push(Math.floor((Math.random() * 100) + 1));
+      }
     },
     methods: {
-        rand() {
-            return Math.floor((Math.random() * 10) + 1)
-        }
+      rand() {
+        return Math.floor((Math.random() * 10) + 1)
+      }
     },
     components: {
-        Navy,
-        Macros
+      Macros,
+      History
     }
   }
-</script>
 
+</script>

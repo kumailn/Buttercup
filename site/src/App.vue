@@ -1,14 +1,19 @@
 <template>
   <div id="app">
+    <v-app dark>
+    <Navy/>
     <router-view/>
-    <router-view name="detail"></router-view>
-    <router-view name="macros"></router-view>
+    </v-app>
   </div>
 </template>
 
 <script>
+import Navy from '@/components/Navy.vue'
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    Navy,
+  }
 }
 </script>
 
@@ -19,6 +24,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
