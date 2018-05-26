@@ -1,7 +1,8 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
     <router-view/>
+    <router-view name="detail"></router-view>
+    <router-view name="macros"></router-view>
   </div>
 </template>
 
