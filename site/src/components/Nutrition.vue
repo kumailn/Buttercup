@@ -32,8 +32,9 @@
                       <v-list-tile>
                         <v-list-tile-content>Calories:</v-list-tile-content>
                         <v-spacer></v-spacer>
-                        <v-progress-circular :value="(totalcals*100)/2200" color="blue-grey"></v-progress-circular>
                         <v-list-tile-content class="align-end">{{ Math.floor(totalcals) }}</v-list-tile-content>
+                        <v-spacer></v-spacer>
+                        <v-progress-circular :value="(totalcals*100)/2200" color="blue-grey"></v-progress-circular>
                       </v-list-tile>
                       <v-divider></v-divider>
                       <v-list-tile>
