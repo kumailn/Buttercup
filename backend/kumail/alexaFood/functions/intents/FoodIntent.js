@@ -1,5 +1,6 @@
 const lib = require('lib');
 // var db = require('./initfb');
+const axios = require('axios')
 var firebase = require('firebase')
 var firestore = require('firebase/firestore')
 const WolframAlphaAPI = require('wolfram-alpha-api');
@@ -68,25 +69,54 @@ module.exports = ( number = '3', food = 'apple', day = null,  callback) => {
 
     today = dd + '-' + mm + '-' + yyyy;
 
-    db.collection("food").doc(today).set({ Breakfast : [
-        {
-            day: day,
-            name: food,
-            date : today,
-            calories: cal
+    let config = {
+        headers: {
+            "Content-Type" : "application/json",
+            "x-app-id": "9e532352",
+            "x-app-key":"6ed4ce62413527ec587436f7862841e5"    }
+      }
+      
+      let data = {
+        "query" : "for breakfast i ate a " + food
         }
-    ]
-    })
-    .then(function(docRef) {
-        console.log("Document written with ID: ", docRef.id);
-        return callback(null, output);
-    })
-    .catch(function(error) {
-        console.error("Error adding document: ", error);
-        return callback(null, output);
-    });
+      
+    axios.post('https://trackapi.nutritionix.com/v2/natural/nutrients', data, config).then((data) => {
+                console.log(data.data)    
     
-    waApi.getFull(`calories in a ${food}`).then(msg => {
+                console.log(data.data.foods[0].food_name)    
+                console.log(data.data.foods[0].serving_unit)    
+                console.log(data.data.foods[0].nf_calories)    
+                console.log(data.data.foods[0].nf_total_fat)    
+                console.log(data.data.foods[0].nf_sodium)    
+                console.log(data.data.foods[0].nf_protein)    
+                console.log(data.data.foods[0].nf_sugars)    
+
+                db.collection("food").doc(today).set({ Breakfast : [
+                    {
+                        day: day,
+                        name: data.data.foods[0].food_name,
+                        date : today,
+                        calories: data.data.foods[0].nf_calories,
+                        servings: data.data.foods[0].serving_unit,
+                        sodium: data.data.foods[0].nf_sodium,
+                        protein : data.data.foods[0].nf_protein,
+                        sugar: data.data.foods[0].nf_sugars,
+                        fat: data.data.foods[0].nf_total_fat
+                    }
+                ]
+                })
+                .then(function(docRef) {
+                    console.log("Document written with ID: ", docRef.id);
+                    return callback(null, output);
+                })
+                .catch(function(error) {
+                    console.error("Error adding document: ", error);
+                    return callback(null, output);
+                });
+            }).catch(err => console.log("ERRORRRR", err))
+
+    
+/*     waApi.getFull(`calories in a ${food}`).then(msg => {
         var cal = msg.pods[1].subpods[0].plaintext;
         console.log("CAAAAAAAAAAAAAAAAAAAAAAAL!!!!!!!!!!!!!!!!!!!!", msg.pods[1].subpods[0].plaintext);
         db.collection("food").doc(today).set({ Breakfast : [
@@ -109,7 +139,7 @@ module.exports = ( number = '3', food = 'apple', day = null,  callback) => {
     }).catch(err => {
         return callback(null, output + err);
     });
-
+ */
 
     
     

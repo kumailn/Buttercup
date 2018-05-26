@@ -5,6 +5,7 @@
   "author": "kumail <kumailmn@gmail.com>",
   "main": "functions/__main__.js",
   "dependencies": {
+    "axios": "^0.18.0",
     "firebase": "^5.0.4",
     "firebase-admin": "^5.12.1",
     "install": "^0.11.0",
