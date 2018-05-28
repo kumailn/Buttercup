@@ -24,10 +24,16 @@
   export default {
     name: "Macros",
     data: () => ({
-      show: false
+      show: false,
+      carbs: 0,
+      protein: 0,
+      fat: 0
     }),
     components: {
       CommitChart
+    },
+    mounted(){
+
     }
   }
 
